@@ -10,7 +10,9 @@ webhook_connection = http.client.HTTPSConnection(WEB_HOOK_API, context=ssl.creat
 webhook_connection.connect()
 webhook_body = json.JSONEncoder().encode({"url":WEB_HOOK_HOST,})
 webhook_head = {"Content-Type":"application/x-www-form-urlencoded",}
-webhook_connection.request("POST", URL + "setWebhook", webhook_body, webhook_head)
+webhook_connection.request("POST", URL + "setWebhook", body = webhook_body, headers = webhook_head)
 response = webhook_connection.getresponse()
-print(response.readlines())
+for l in response:
+	print(l.decode("utf_8"))
+
 webhook_connection.close()
