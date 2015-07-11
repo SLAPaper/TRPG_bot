@@ -1,4 +1,7 @@
-import urllib.request, urllib.parse, http.server, json, socketserver, ssl
+import urllib.request, urllib.parse, json, ssl, select, threading
+
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from SocketServer import ThreadingMixIn
 
 TOKEN = "119827757:AAFTo0ezhROp-0Ria-zkjkGHfJeHtik8-Ow"
 PORT = 8443
@@ -7,7 +10,6 @@ WEB_HOOK_API = "https://api.telegram.org/"
 URL = "bot" + TOKEN + "/"
 
 webhook_body = urllib.parse.urlencode({"url":WEB_HOOK_HOST,})
-webhook_head = {"Content-Type":"application/x-www-form-urlencoded", "Accept": "text/plain",}
 
 https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
 proxy_handler = urllib.request.ProxyHandler({'http':'127.0.0.1:1080', 'https':'127.0.0.1:1080', 'socks5':'127.0.0.1:1080'},)
@@ -19,3 +21,30 @@ for l in webhook_response:
 	print(l.decode("utf-8"))
 
 # webhook setting finished, now building bot server
+
+class BotHandler(BaseHTTPRequestHandler):
+	def do_POST(self):
+		self.send_response(200)
+		self.end_headers()
+		message = ''
+		while select.select([self.rfile], [], [], 0)[0]:
+			message = self.rfile.readall()
+			pass
+		# multithreading
+		self.wfile.write(message)
+		self.wfile.write('\n')
+
+class ThreadedBotServer(ThreadingMixIn, HTTPServer):
+	pass
+
+server_address = ('', 8443)
+bot_server =  ThreadedBotServer(server_address, BotHandler)
+# HTTPS support needed
+# bot_server.socket = ssl.
+
+try:
+	bot_server.serve_forever()
+except KeyboardInterrupt:
+    print("\nKeyboard interrupt received, exiting.")
+    httpd.server_close()
+    sys.exit(0)
