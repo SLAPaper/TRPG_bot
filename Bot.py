@@ -1,18 +1,21 @@
-import urllib, http.client, http.server, json, socketserver, ssl
+import urllib.request, urllib.parse, http.server, json, socketserver, ssl
 
 TOKEN = "119827757:AAFTo0ezhROp-0Ria-zkjkGHfJeHtik8-Ow"
 PORT = 8443
 WEB_HOOK_HOST = "https://www.slapaper.cn:%d/" % PORT + TOKEN
-WEB_HOOK_API = "api.telegram.org"
-URL = "/bot" + TOKEN + "/"
+WEB_HOOK_API = "https://api.telegram.org/"
+URL = "bot" + TOKEN + "/"
 
-webhook_connection = http.client.HTTPSConnection(WEB_HOOK_API, context=ssl.create_default_context())
-webhook_connection.connect()
-webhook_body = json.JSONEncoder().encode({"url":WEB_HOOK_HOST,})
-webhook_head = {"Content-Type":"application/x-www-form-urlencoded",}
-webhook_connection.request("POST", URL + "setWebhook", body = webhook_body, headers = webhook_head)
-response = webhook_connection.getresponse()
-for l in response:
-	print(l.decode("utf_8"))
+webhook_body = urllib.parse.urlencode({"url":WEB_HOOK_HOST,})
+webhook_head = {"Content-Type":"application/x-www-form-urlencoded", "Accept": "text/plain",}
 
-webhook_connection.close()
+https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
+proxy_handler = urllib.request.ProxyHandler({'http':'127.0.0.1:1080', 'https':'127.0.0.1:1080', 'socks5':'127.0.0.1:1080'},)
+
+webhook_opener = urllib.request.build_opener(https_handler, proxy_handler)
+webhook_response = webhook_opener.open(WEB_HOOK_API + URL + "setWebhook", data=webhook_body.encode('utf-8'))
+
+for l in webhook_response:
+	print(l.decode("utf-8"))
+
+# webhook setting finished, now building bot server
