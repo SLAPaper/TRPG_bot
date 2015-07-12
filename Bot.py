@@ -17,10 +17,10 @@ CA_FILE = None
 CA_PATH	= None
 CA_DATA = None
 
-if DEBUG:
-	CA_FILE = sys.argv[2]
+if not DEBUG:
+	CA_FILE = "ca.crt"
 
-webhook_body = urllib.parse.urlencode({"url":WEB_HOOK_HOST,})
+webhook_body = urllib.parse.urlencode({'url':WEB_HOOK_HOST,})
 
 https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
 proxy_handler = urllib.request.ProxyHandler({'http':'127.0.0.1:1080', 'https':'127.0.0.1:1080', 'socks5':'127.0.0.1:1080'},)
