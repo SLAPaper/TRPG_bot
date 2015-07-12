@@ -1,4 +1,4 @@
-import urllib.request, urllib.parse, json, ssl, select, threading, socket, sys
+import urllib.request, urllib.parse, json, ssl, threading, socket, sys
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
@@ -41,13 +41,11 @@ class BotHandler(BaseHTTPRequestHandler):
 	def do_POST(self):
 		self.send_response(200)
 		self.end_headers()
-		message = ''
-		while select.select([self.rfile], [], [], 0)[0]:
-			message = self.rfile.readall()
-		# multithreading
+		message = self.rfile.readall()
 		print(message)
 		self.wfile.write(message)
 		self.wfile.write('\n')
+		# multithreading
 
 class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 	pass
