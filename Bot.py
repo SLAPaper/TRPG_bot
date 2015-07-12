@@ -17,6 +17,9 @@ CA_FILE = None
 CA_PATH	= None
 CA_DATA = None
 
+if DEBUG:
+	CA_FILE = sys.argv[2]
+
 webhook_body = urllib.parse.urlencode({"url":WEB_HOOK_HOST,})
 
 https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
