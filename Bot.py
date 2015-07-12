@@ -43,6 +43,7 @@ class BotHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 		message = self.rfile.readall()
 		print("A POST message came!\n", message)
+		self.wfile.write(message)
 		self.wfile.flush()
 		# multithreading
 
