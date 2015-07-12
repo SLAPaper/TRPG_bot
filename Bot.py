@@ -42,9 +42,8 @@ class BotHandler(BaseHTTPRequestHandler):
 		self.send_response(200)
 		self.end_headers()
 		message = self.rfile.readall()
-		print(message)
-		self.wfile.write(message)
-		self.wfile.write('\n')
+		print("A POST message came!\n", message)
+		self.wfile.flush()
 		# multithreading
 
 class ThreadedBotServer(ThreadingMixIn, HTTPServer):
