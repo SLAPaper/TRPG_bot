@@ -1,7 +1,7 @@
-import urllib.request, urllib.parse, json, ssl, select, threading
+import urllib.request, urllib.parse, json, ssl, select, threading, socket
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from SocketServer import ThreadingMixIn
+from socketserver import ThreadingMixIn
 
 TOKEN = "119827757:AAFTo0ezhROp-0Ria-zkjkGHfJeHtik8-Ow"
 PORT = 8443
@@ -29,8 +29,8 @@ class BotHandler(BaseHTTPRequestHandler):
 		message = ''
 		while select.select([self.rfile], [], [], 0)[0]:
 			message = self.rfile.readall()
-			pass
 		# multithreading
+		print(message)
 		self.wfile.write(message)
 		self.wfile.write('\n')
 
@@ -38,7 +38,7 @@ class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 	pass
 
 server_address = ('', 8443)
-bot_server =  ThreadedBotServer(server_address, BotHandler)
+bot_server = ThreadedBotServer(server_address, BotHandler)
 # HTTPS support needed
 # bot_server.socket = ssl.
 
@@ -46,5 +46,4 @@ try:
 	bot_server.serve_forever()
 except KeyboardInterrupt:
     print("\nKeyboard interrupt received, exiting.")
-    httpd.server_close()
-    sys.exit(0)
+    bot_server.server_close()
