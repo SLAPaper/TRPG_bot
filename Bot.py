@@ -1,7 +1,12 @@
-import urllib.request, urllib.parse, json, ssl, select, threading, socket
+import urllib.request, urllib.parse, json, ssl, select, threading, socket, sys
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
+
+if len(sys.argv) < 2:
+	DEBUG = False
+else:
+	DEBUG = True
 
 TOKEN = "119827757:AAFTo0ezhROp-0Ria-zkjkGHfJeHtik8-Ow"
 PORT = 8443
@@ -17,7 +22,11 @@ webhook_body = urllib.parse.urlencode({"url":WEB_HOOK_HOST,})
 https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
 proxy_handler = urllib.request.ProxyHandler({'http':'127.0.0.1:1080', 'https':'127.0.0.1:1080', 'socks5':'127.0.0.1:1080'},)
 
-webhook_opener = urllib.request.build_opener(https_handler, proxy_handler)
+if DEBUG:
+	webhook_opener = urllib.request.build_opener(https_handler, proxy_handler)
+else:
+	webhook_opener = urllib.request.build_opener(https_handler)
+
 webhook_response = webhook_opener.open(WEB_HOOK_API + URL + "setWebhook", data=webhook_body.encode('utf-8'))
 
 for l in webhook_response:
