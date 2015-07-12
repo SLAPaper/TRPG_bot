@@ -8,6 +8,9 @@ PORT = 8443
 WEB_HOOK_HOST = "https://www.slapaper.cn:%d/" % PORT + TOKEN
 WEB_HOOK_API = "https://api.telegram.org/"
 URL = "bot" + TOKEN + "/"
+CA_FILE = None
+CA_PATH	= None
+CA_DATA = None
 
 webhook_body = urllib.parse.urlencode({"url":WEB_HOOK_HOST,})
 
@@ -40,7 +43,8 @@ class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 server_address = ('', 8443)
 bot_server = ThreadedBotServer(server_address, BotHandler)
 # HTTPS support needed
-# bot_server.socket = ssl.
+server_ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH, cafile = CA_FILE, capath = CA_PATH, cadata = CA_DATA) 
+bot_server.socket = server_ssl_context.wrap_socket(bot_server.socket, server_side=True)
 
 try:
 	bot_server.serve_forever()
