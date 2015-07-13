@@ -34,13 +34,13 @@ class BotHandler(BaseHTTPRequestHandler):
 class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 	pass
 
-class ThreadedBotServer_v6(ThreadedBotServer):
-	address_family = socket.AF_INET6
+# class ThreadedBotServer_v6(ThreadedBotServer):
+# 	address_family = socket.AF_INET6
 
 server_address = ('', PORT)
-server_address_v6 = ('', PORT)
+# server_address_v6 = ('', PORT)
 bot_server = ThreadedBotServer(server_address, BotHandler)
-bot_server_v6 = ThreadedBotServer_v6(server_address_v6, BotHandler)
+# bot_server_v6 = ThreadedBotServer_v6(server_address_v6, BotHandler)
 
 # HTTPS support needed
 server_ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
