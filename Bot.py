@@ -1,4 +1,4 @@
-import urllib.request, urllib.parse, json, ssl, threading, socket, sys
+import urllib.request, urllib.parse, json, ssl, threading, socket, sys, select
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
@@ -23,19 +23,17 @@ for l in webhook_response:
 
 class BotHandler(BaseHTTPRequestHandler):
 	def do_POST(self):
-		print("in do_POST!")
 		print(self.headers)
 		
 		self.send_response(200)
 		self.end_headers()
 		
-		message = self.rfile.read(1)
-		
+		rfile = select.select([self.rfile], [], [])
+		message = rfile.read()
 		print("A POST message came!\n", message)
 		
 		self.wfile.flush()
 		self.wfile.write(message)
-		# multithreading
 
 class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 	pass
@@ -43,7 +41,6 @@ class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 server_address = ('', PORT)
 bot_server = ThreadedBotServer(server_address, BotHandler)
 
-# HTTPS support needed
 server_ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
 server_ssl_context.load_cert_chain(CA_FILE, KEY_FILE)
 
