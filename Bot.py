@@ -37,8 +37,8 @@ class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 class ThreadedBotServer_v6(ThreadedBotServer):
 	address_family = socket.AF_INET6
 
-server_address = ('0.0.0.0', PORT)
-server_address_v6 = ('::', PORT)
+server_address = ('127.0.0.1', PORT)
+server_address_v6 = ('::1', PORT)
 bot_server = ThreadedBotServer(server_address, BotHandler)
 bot_server_v6 = ThreadedBotServer_v6(server_address_v6, BotHandler)
 
