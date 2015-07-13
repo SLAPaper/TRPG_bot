@@ -47,7 +47,7 @@ server_ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
 server_ssl_context.load_cert_chain(CA_FILE, KEY_FILE)
 
 bot_server.socket = server_ssl_context.wrap_socket(bot_server.socket, server_side=True)
-bot_server_v6.socket = server_ssl_context.wrap_socket(bot_server_v6.socket, server_side=True)
+# bot_server_v6.socket = server_ssl_context.wrap_socket(bot_server_v6.socket, server_side=True)
 print("\nBot servers is now working.")
 
 try:
@@ -55,12 +55,12 @@ try:
 	server_thread.daemon = True
 	server_thread.start()
 	
-	server_thread_v6 = threading.Thread(target=bot_server_v6.serve_forever())
-	server_thread_v6.daemon = True
-	server_thread_v6.start()
+	# server_thread_v6 = threading.Thread(target=bot_server_v6.serve_forever())
+	# server_thread_v6.daemon = True
+	# server_thread_v6.start()
 	
 	print("\nBot servers are now working.")
 except KeyboardInterrupt:
     print("\nKeyboard interrupt received, exiting.")
     bot_server.shutdown()
-    bot_server_v6.shutdown()
+    # bot_server_v6.shutdown()
