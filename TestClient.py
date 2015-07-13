@@ -8,7 +8,7 @@ TOKEN = dic["TOKEN"]
 PORT = dic["PORT"]
 PATH = dic["PATH"]
 
-WEB_HOOK_HOST = PATH + TOKEN + "/"
+WEB_HOOK_HOST = "https://" + PATH + TOKEN + "/"
 
 https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
 proxy_handler = urllib.request.ProxyHandler({'https':'127.0.0.1:8090',})
