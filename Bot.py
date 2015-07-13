@@ -26,7 +26,7 @@ class BotHandler(BaseHTTPRequestHandler):
 		print("in do_POST!")
 		self.send_response(200)
 		self.end_headers()
-		message = self.rfile.read()
+		message = self.rfile.read(65537)
 		print("A POST message came!\n", message)
 		self.wfile.write(message)
 		self.wfile.flush()
@@ -43,12 +43,12 @@ server_ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
 server_ssl_context.load_cert_chain(CA_FILE, KEY_FILE)
 
 bot_server.socket = server_ssl_context.wrap_socket(bot_server.socket, server_side=True)
+print("\nBot server is now builded.")
 
 try:
 	server_thread = threading.Thread(target=bot_server.serve_forever())
 	server_thread.daemon = True
 	server_thread.start()
-	print("\nBot server is now working.")
 except KeyboardInterrupt:
     print("\nKeyboard interrupt received, exiting.")
     bot_server.shutdown()
