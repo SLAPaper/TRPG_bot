@@ -29,17 +29,15 @@ for l in webhook_response:
 
 class BotHandler(BaseHTTPRequestHandler):
 	def do_POST(self):
-		print(self.headers)
-		
 		self.send_response(200)
 		self.end_headers()
 		
 		length = int(self.headers['Content-length'])
 		message = self.rfile.read(length)
-		print("A POST message came!\n", message)
+		data = json.loads(message.decode("utf_8"))
+		print(data)
 		
 		self.wfile.flush()
-		self.wfile.write(message)
 
 class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 	address_family = socket.AF_INET6
