@@ -35,7 +35,7 @@ class BotHandler(BaseHTTPRequestHandler):
 		length = int(self.headers['Content-length'])
 		message = self.rfile.read(length)
 		data = json.loads(message.decode("utf_8"))
-		print(data)
+		print(json.dumps(data, indent=4))
 		
 		self.wfile.flush()
 
