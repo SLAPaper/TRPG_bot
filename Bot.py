@@ -41,7 +41,7 @@ class BotHandler(BaseHTTPRequestHandler):
 	def do_POST(self):
 		self.send_response(200)
 		self.end_headers()
-		message = self.rfile.readall()
+		message = self.rfile.read()
 		print("A POST message came!\n", message)
 		self.wfile.write(message)
 		self.wfile.flush()
