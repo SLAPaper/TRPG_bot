@@ -53,8 +53,9 @@ class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 server_address = ('', 8443)
 bot_server = ThreadedBotServer(server_address, BotHandler)
 # HTTPS support needed
-server_ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH) 
-bot_server.socket = server_ssl_context.wrap_socket(bot_server.socket, keyfile=KEY_FILE, certfile=CA_FILE, server_side=True, suppress_ragged_eofs=False)
+server_ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+server_ssl_context.load_cert_chain(CA_FILE, KEY_FILE)
+bot_server.socket = server_ssl_context.wrap_socket(bot_server.socket, server_side=True)
 
 try:
 	bot_server.serve_forever()
