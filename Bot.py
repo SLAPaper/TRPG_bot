@@ -44,7 +44,7 @@ class BotHandler(BaseHTTPRequestHandler):
 class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 	address_family = socket.AF_INET6
 
-server_address = ('localhost', PORT)
+server_address = ('', PORT)
 bot_server = ThreadedBotServer(server_address, BotHandler)
 
 server_ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
