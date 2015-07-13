@@ -5,8 +5,8 @@ PORT = 8443
 WEB_HOOK_HOST = "https://www.slapaper.cn:8443/" + TOKEN
 
 https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
-# proxy_handler = urllib.request.ProxyHandler({'http':'127.0.0.1:1080', 'https':'127.0.0.1:1080', 'socks5':'127.0.0.1:1080'},)
-opener = urllib.request.build_opener(https_handler)
+proxy_handler = urllib.request.ProxyHandler({'https':'127.0.0.1:8090',})
+opener = urllib.request.build_opener(https_handler, proxy_handler)
 
 data = "Hello World!".encode('utf-8')
 response = opener.open(WEB_HOOK_HOST, data=data)
