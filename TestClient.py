@@ -1,14 +1,20 @@
 import urllib.request, urllib.parse, json, ssl
 
-TOKEN = "119827757:AAFTo0ezhROp-0Ria-zkjkGHfJeHtik8-Ow"
-PORT = 8443
-WEB_HOOK_HOST = "https://www.slapaper.cn:%d/" % PORT + TOKEN + "/"
+f = open("config.json", "r", encoding="utf-8")
+dic = json.load(f)
+f.close()
+
+TOKEN = dic["TOKEN"]
+PORT = dic["PORT"]
+PATH = dic["PATH"]
+
+WEB_HOOK_HOST = PATH + TOKEN + "/"
 
 https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
 proxy_handler = urllib.request.ProxyHandler({'https':'127.0.0.1:8090',})
 opener = urllib.request.build_opener(https_handler, proxy_handler)
 
-data = urllib.parse.urlencode({'message':"Hello World!",}).encode('utf-8')
+data = "Hello World!".encode('utf-8')
 response = opener.open(WEB_HOOK_HOST, data=data)
 
 for l in response:

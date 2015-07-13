@@ -3,21 +3,27 @@ import urllib.request, urllib.parse, json, ssl, threading, socket, sys, select
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
 
-TOKEN = "119827757:AAFTo0ezhROp-0Ria-zkjkGHfJeHtik8-Ow"
-PORT = 8443
-WEB_HOOK_HOST = "https://www.slapaper.cn:%d/" % PORT + TOKEN + "/"
+f = open("config.json", "r", encoding="utf-8")
+dic = json.load(f)
+f.close()
+
+TOKEN = dic["TOKEN"]
+PORT = dic["PORT"]
+PATH = dic["PATH"]
+CA_FILE = dic["CA_FILE"]
+KEY_FILE = dic["KEY_FILE"]
+
+WEB_HOOK_HOST = PATH + TOKEN + "/"
 WEB_HOOK_API = "https://api.telegram.org/"
 URL = "bot" + TOKEN + "/"
-CA_FILE = "ca.crt"
-KEY_FILE = "ca.key"
 
 webhook_body = urllib.parse.urlencode({'url':WEB_HOOK_HOST,})
 https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
 webhook_opener = urllib.request.build_opener(https_handler)
-webhook_response = webhook_opener.open(WEB_HOOK_API + URL + "setWebhook", data=webhook_body.encode('utf-8'))
+webhook_response = webhook_opener.open(WEB_HOOK_API + URL + "setWebhook", data=webhook_body.encode('utf_8'))
 
 for l in webhook_response:
-	print(l.decode("utf-8"))
+	print(l.decode("utf_8"))
 
 # webhook setting finished, now building bot server
 
