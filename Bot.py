@@ -29,7 +29,7 @@ class BotHandler(BaseHTTPRequestHandler):
 		self.end_headers()
 		
 		length = int(self.headers['Content-length'])
-		message = rfile.read(length)
+		message = self.rfile.read(length)
 		print("A POST message came!\n", message)
 		
 		self.wfile.flush()
