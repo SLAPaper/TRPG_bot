@@ -8,7 +8,7 @@ dic = json.load(f)
 f.close()
 
 TOKEN = dic["TOKEN"]
-PORT = dic["PORT"]
+PORT = int(dic["PORT"])
 PATH = dic["PATH"]
 CA_FILE = dic["CA_FILE"]
 KEY_FILE = dic["KEY_FILE"]
