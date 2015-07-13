@@ -44,7 +44,7 @@ bot_server_v6 = ThreadedBotServer_v6(server_address_v6, BotHandler)
 
 # HTTPS support needed
 server_ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-# server_ssl_context.load_cert_chain(CA_FILE, KEY_FILE)
+server_ssl_context.load_cert_chain(CA_FILE, KEY_FILE)
 
 bot_server.socket = server_ssl_context.wrap_socket(bot_server.socket, server_side=True)
 bot_server_v6.socket = server_ssl_context.wrap_socket(bot_server_v6.socket, server_side=True)
