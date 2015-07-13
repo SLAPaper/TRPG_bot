@@ -24,12 +24,17 @@ for l in webhook_response:
 class BotHandler(BaseHTTPRequestHandler):
 	def do_POST(self):
 		print("in do_POST!")
+		print(self.headers)
+		
 		self.send_response(200)
 		self.end_headers()
-		message = self.rfile.read(65537)
+		
+		message = self.rfile.read(1)
+		
 		print("A POST message came!\n", message)
-		self.wfile.write(message)
+		
 		self.wfile.flush()
+		self.wfile.write(message)
 		# multithreading
 
 class ThreadedBotServer(ThreadingMixIn, HTTPServer):
