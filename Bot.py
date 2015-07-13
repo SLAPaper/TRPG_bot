@@ -3,7 +3,7 @@ import urllib.request, urllib.parse, json, ssl, threading, socket, sys, select
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
 
-f = open("config.json", "r", encoding="utf-8")
+f = open("config.json", "r", encoding="utf_8")
 dic = json.load(f)
 f.close()
 
