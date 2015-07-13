@@ -19,7 +19,7 @@ webhook_response = webhook_opener.open(WEB_HOOK_API + URL + "setWebhook", data=w
 for l in webhook_response:
 	print(l.decode("utf-8"))
 
-webhook setting finished, now building bot server
+# webhook setting finished, now building bot server
 
 class BotHandler(BaseHTTPRequestHandler):
 	def do_POST(self):
