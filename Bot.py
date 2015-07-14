@@ -1,4 +1,4 @@
-import urllib.request, urllib.parse, json, ssl, threading, socket, sys, select
+import urllib.request, urllib.parse, json, ssl, threading, socket, sys, select, Update
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
@@ -29,15 +29,20 @@ for l in webhook_response:
 
 class BotHandler(BaseHTTPRequestHandler):
 	def do_POST(self):
-		self.send_response(200)
-		self.end_headers()
-		
-		length = int(self.headers['Content-length'])
-		message = self.rfile.read(length)
-		data = json.loads(message.decode("utf_8"))
-		print(json.dumps(data, sort_keys=True, indent=4))
-		
-		self.wfile.flush()
+		if self.path.strip("/") == TOKEN:
+			self.send_response(200)
+			self.end_headers()
+			length = int(self.headers['Content-length'])
+			message = self.rfile.read(length)
+			data = json.loads(message.decode("utf_8"))
+			
+			# Debug output
+			print(json.dumps(data, sort_keys=True, indent=4))
+			
+			Update.deal(data)
+		else:
+			self.send_response(404)
+			self.end_headers()
 
 class ThreadedBotServer(ThreadingMixIn, HTTPServer):
 	address_family = socket.AF_INET6
