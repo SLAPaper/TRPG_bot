@@ -6,14 +6,14 @@ f.close()
 
 TOKEN = dic["TOKEN"]
 
-WEB_HOOK_API = "https://api.telegram.org/"
+API = "https://api.telegram.org/"
 URL = "bot" + TOKEN + "/"
 
 https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
 proxy_handler = urllib.request.ProxyHandler({'https':'127.0.0.1:8090',})
 webhook_opener = urllib.request.build_opener(https_handler, proxy_handler)
 
-webhook_response = webhook_opener.open(WEB_HOOK_API + URL + "setWebhook")
+webhook_response = webhook_opener.open(API + URL + "setWebhook")
 
 for l in webhook_response:
 	print(l.decode("utf_8"))
