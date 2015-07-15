@@ -1,4 +1,4 @@
-import urllib.request, urllib.parse, json, ssl, threading, socket, sys, select, Update
+import urllib.request, urllib.parse, json, ssl, threading, socket, Update, Telegram_API
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
@@ -17,12 +17,9 @@ HOST = PATH + TOKEN + "/"
 API = "https://api.telegram.org/"
 URL = "bot" + TOKEN + "/"
 
-webhook_body = urllib.parse.urlencode({'url':HOST,})
-https_handler = urllib.request.HTTPSHandler(context=ssl.create_default_context())
-webhook_opener = urllib.request.build_opener(https_handler)
-webhook_response = webhook_opener.open(API + URL + "setWebhook", data=webhook_body.encode('utf_8'))
+response = Telegram_API.setWebhook(globals(), HOST)
 
-for l in webhook_response:
+for l in response:
 	print(l.decode("utf_8"))
 
 # webhook setting finished, now building bot server

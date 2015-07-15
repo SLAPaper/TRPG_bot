@@ -1,13 +1,4 @@
-import urllib.request, urllib.parse, json, ssl, random
-
-f = open("config.json", "r", encoding="utf-8")
-dic = json.load(f)
-f.close()
-
-TOKEN = dic["TOKEN"]
-
-API = "https://api.telegram.org/"
-URL = "bot" + TOKEN + "/"
+import random, Telegram_API.py
 
 def deal(data):
 	l = data["message"]["text"].split(maxsplit=2)
@@ -21,39 +12,39 @@ def roll(query):
 	# d = 1#1d20+0
 	# [times'#'][count]'d'[faces]['+'addend]' '[description]
 	
-	try:
-		if 'd' in query:
-			def f(s):
-				if s.isnumeric():
-					return int(s)
-				else:
-					return 1
-			front, back = query.split('d', maxsplit=2)
-			
-			if '#' in front:
-				times, count = map(f, front.split('#'))
-			elif front.isnumeric():
-				times = 1
-				count = int(front)
+	if 'd' in query:
+		def f(s):
+			if s.isnumeric():
+				return int(s)
 			else:
-				times = 1
-				count = 1
-			
-			if ' ' in back:
-				back2, description = back.split(maxsplit=2)
-			else:
-				back2 = back
-				description = None
-			
-			if '+' in back2:
-				faces, addend = map(f, back2.split('+'))
-			elif back2.isnumeric():
-				faces = int(back2)
-				addend = 0
-			else:
-				faces = 20
-				addend = 0
+				return 1
+		front, back = query.split('d', maxsplit=2)
 		
+		if '#' in front:
+			times, count = map(f, front.split('#'))
+		elif front.isnumeric():
+			times = 1
+			count = int(front)
+		else:
+			times = 1
+			count = 1
+		
+		if ' ' in back:
+			back2, description = back.split(maxsplit=2)
+		else:
+			back2 = back
+			description = None
+		
+		if '+' in back2:
+			faces, addend = map(f, back2.split('+'))
+		elif back2.isnumeric():
+			faces = int(back2)
+			addend = 0
+		else:
+			faces = 20
+			addend = 0
+	
+	try:
 		result = []
 		for i in range(times):
 			dice_sum = 0
@@ -72,4 +63,7 @@ def do_r(data):
 	else:
 		query = None 
 	result = roll(query)
+	# POST the result
+
+def do_me(data):
 	# POST the result
