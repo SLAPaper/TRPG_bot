@@ -3,7 +3,6 @@ import random, Telegram_API
 def deal(prefix, update):
     l = update.message.text.split(maxsplit=2)
     command = l[0].strip('/')
-    print(command)
     try:
         globals()["do_" + command](prefix, update.message)
     except:
@@ -12,8 +11,7 @@ def deal(prefix, update):
 def roll(query):
     # d = 1#1d20+0
     # [times'#'][count]'d'[faces]['+'addend]' '[description]
-    
-    if 'd' in query:
+    try:
         def f(s):
             if s.isnumeric():
                 return int(s)
@@ -44,8 +42,6 @@ def roll(query):
         else:
             faces = 20
             addend = 0
-    
-    try:
         result = []
         for i in range(times):
             dice_sum = 0
@@ -55,11 +51,10 @@ def roll(query):
             result.append(dice_sum)
         return tuple(result)
     except:
-        return tuple(random.randrange(20) + 1)
+        return (random.randrange(20) + 1,)
 
 def do_r(prefix, message):
-    print("in do_r")
-    print(message)
+    print(message.text)
     l = message.text.split(maxsplit=2)
     if len(l) > 1:
         query = l[1]
