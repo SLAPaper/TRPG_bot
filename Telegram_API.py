@@ -12,27 +12,32 @@ opener = makeOpener()
     
 # proxy is just for debug
 def setWebhook(prefix, url="", proxy=None):
+    global opener
     if proxy:
         opener = makeOpener(proxy)
     body = urllib.parse.urlencode({'url':url,})
     return opener.open(prefix + "setWebhook", data=body.encode('utf_8'))
 
 def getMe(prefix):
+    global opener
     return opener.open(prefix + "getMe")
 
 def sendMessage(prefix, chat_id, text, optional={}):
+    global opener
     data = {'chat_id':chat_id, 'text':text,}
     data.update(optional)
     body = urllib.parse.urlencode(data)
     return opener.open(prefix + "sendMessage", data=body)
 
 def forwardMessage(prefix, chat_id, from_chat_id, message_id):
+    global opener
     data = {'chat_id':chat_id, 'from_chat_id':from_chat_id, 'message_id':message_id,}
     body = urllib.parse.urlencode(data)
     return opener.open(prefix + "forwardMessage", data=body)
 
 def sendFile(prefix, chat_id, filedata, filetype, optional={}):
     # It is a replacement of sendPhoto, sendAudio, sendDocument, sendSticker, sendVideo
+    global opener
     data = {'chat_id':chat_id, filetype:filedata,}
     data.update(optional)
     
