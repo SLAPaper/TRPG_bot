@@ -36,7 +36,7 @@ class BotHandler(BaseHTTPRequestHandler):
             print(json.dumps(data, sort_keys=True, indent=4))
             
             update = Telegram_Update.Update(data)
-            Update.deal(API, update)
+            Telegram_Update.deal(API, update)
         else:
             self.send_response(404)
             self.end_headers()
