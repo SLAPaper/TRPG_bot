@@ -18,4 +18,4 @@ data = "Hello World!".encode('utf_8')
 response = opener.open(HOST, data=data)
 
 for l in response:
-	print(l.decode("utf_8"))
+    print(l.decode("utf_8"))

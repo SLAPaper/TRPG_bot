@@ -1,4 +1,4 @@
-import urllib.request, urllib.parse, json, ssl, threading, socket, Update, Telegram_API
+import urllib.request, urllib.parse, json, ssl, threading, socket, Telegram_Update, Telegram_API
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from socketserver import ThreadingMixIn
@@ -19,29 +19,30 @@ API = "https://api.telegram.org/bot" + TOKEN + "/"
 response = Telegram_API.setWebhook(API, HOST)
 
 for l in response:
-	print(l.decode("utf_8"))
+    print(l.decode("utf_8"))
 
 # webhook setting finished, now building bot server
 
 class BotHandler(BaseHTTPRequestHandler):
-	def do_POST(self):
-		if self.path.strip("/") == TOKEN:
-			self.send_response(200)
-			self.end_headers()
-			length = int(self.headers['Content-length'])
-			message = self.rfile.read(length)
-			data = json.loads(message.decode("utf_8"))
-			
-			# Debug output
-			print(json.dumps(data, sort_keys=True, indent=4))
-			
-			Update.deal(data)
-		else:
-			self.send_response(404)
-			self.end_headers()
+    def do_POST(self):
+        if self.path.strip("/") == TOKEN:
+            self.send_response(200)
+            self.end_headers()
+            length = int(self.headers['Content-length'])
+            message = self.rfile.read(length)
+            data = json.loads(message.decode("utf_8"))
+            
+            # Debug output
+            print(json.dumps(data, sort_keys=True, indent=4))
+            
+            update = Telegram_Update.Update(data)
+            Update.deal(API, update)
+        else:
+            self.send_response(404)
+            self.end_headers()
 
 class ThreadedBotServer(ThreadingMixIn, HTTPServer):
-	address_family = socket.AF_INET6
+    address_family = socket.AF_INET6
 
 server_address = ('', PORT)
 bot_server = ThreadedBotServer(server_address, BotHandler)
@@ -53,9 +54,9 @@ bot_server.socket = server_ssl_context.wrap_socket(bot_server.socket, server_sid
 print("\nBot server is now builded.")
 
 try:
-	server_thread = threading.Thread(target=bot_server.serve_forever())
-	server_thread.daemon = True
-	server_thread.start()
+    server_thread = threading.Thread(target=bot_server.serve_forever())
+    server_thread.daemon = True
+    server_thread.start()
 except KeyboardInterrupt:
     print("\nKeyboard interrupt received, exiting.")
     bot_server.shutdown()
