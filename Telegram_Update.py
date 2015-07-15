@@ -3,6 +3,7 @@ import random, Telegram_API
 def deal(prefix, update):
     l = update.message.text.split(maxsplit=2)
     command = l[0].strip('/')
+    print(command)
     try:
         globals()["do_" + command](prefix, update.message)
     except:
@@ -57,12 +58,16 @@ def roll(query):
         return tuple(random.randrange(20) + 1)
 
 def do_r(prefix, message):
+    print("in do_r")
+    print(message)
     l = message.text.split(maxsplit=2)
     if len(l) > 1:
         query = l[1]
     else:
-        query = None 
+        query = None
+    print("rolling")
     result = roll(query)
+    print(result)
     text = query + " = " + result
     Telegram_API.sendMessage(prefix, message.chat.id_, text)
 
