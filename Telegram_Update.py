@@ -1,4 +1,4 @@
-import random, Telegram_API.py
+import random, Telegram_API
 
 def deal(prefix, update):
     l = update.message.text.split(maxsplit=2)
