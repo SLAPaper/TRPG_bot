@@ -6,10 +6,9 @@ f.close()
 
 TOKEN = dic["TOKEN"]
 
-API = "https://api.telegram.org/"
-URL = "bot" + TOKEN + "/"
+API = "https://api.telegram.org/bot" + TOKEN + "/"
 
-response = Telegram_API.setWebhook(globals(), proxy={"https":"127.0.0.1:8090"})
+response = Telegram_API.setWebhook(API, proxy={"https":"127.0.0.1:8090"})
 
 for l in response:
 	print(l.decode("utf_8"))

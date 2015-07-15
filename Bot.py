@@ -14,10 +14,9 @@ CA_FILE = dic["CA_FILE"]
 KEY_FILE = dic["KEY_FILE"]
 
 HOST = PATH + TOKEN + "/"
-API = "https://api.telegram.org/"
-URL = "bot" + TOKEN + "/"
+API = "https://api.telegram.org/bot" + TOKEN + "/"
 
-response = Telegram_API.setWebhook(globals(), HOST)
+response = Telegram_API.setWebhook(API, HOST)
 
 for l in response:
 	print(l.decode("utf_8"))
