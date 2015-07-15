@@ -9,17 +9,13 @@ TOKEN = dic["TOKEN"]
 API = "https://api.telegram.org/"
 URL = "bot" + TOKEN + "/"
 
-def deal(Update):
-	text = Update["message"]["text"]
-	l = text.split(maxsplit=2)
-	if len(l) > 1:
-		command, query = l
-	else:
-		command = l[0]
-		query = None 
-	
-	pass
-	return
+def deal(data):
+	l = data["message"]["text"].split(maxsplit=2)
+	command = l[0].strip('/')
+	try:
+		globals()["do_" + command](data)
+	except:
+		# Not valid command
 
 def roll(query):
 	# d = 1#1d20+0
@@ -36,7 +32,7 @@ def roll(query):
 			
 			if '#' in front:
 				times, count = map(f, front.split('#'))
-			else if front.isnumeric():
+			elif front.isnumeric():
 				times = 1
 				count = int(front)
 			else:
@@ -51,7 +47,7 @@ def roll(query):
 			
 			if '+' in back2:
 				faces, addend = map(f, back2.split('+'))
-			else if: back2.isnumeric():
+			elif back2.isnumeric():
 				faces = int(back2)
 				addend = 0
 			else:
@@ -67,4 +63,13 @@ def roll(query):
 			result.append(dice_sum)
 		return tuple(result)
 	except:
-		return random.randrange(20) + 1
+		return tuple(random.randrange(20) + 1)
+
+def do_r(data):
+	l = data["message"]["text"].split(maxsplit=2)
+	if len(l) > 1:
+		query = l[1]
+	else:
+		query = None 
+	result = roll(query)
+	# POST the result
