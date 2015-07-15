@@ -54,16 +54,13 @@ def roll(query):
         return (random.randrange(20) + 1,)
 
 def do_r(prefix, message):
-    print(message.text)
     l = message.text.split(maxsplit=2)
     if len(l) > 1:
         query = l[1]
     else:
         query = None
-    print("rolling")
     result = roll(query)
-    print(result)
-    text = query + " = " + result
+    text = query + " = " + str(result)
     Telegram_API.sendMessage(prefix, message.chat.id_, text)
 
 def do_me(prefix, message):
