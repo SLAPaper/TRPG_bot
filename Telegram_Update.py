@@ -55,10 +55,10 @@ def roll(query):
 
 def do_r(prefix, message):
     l = message.text.split(maxsplit=2)
-    if len(l) > 1:
+    try:
         query = l[1]
-    else:
-        query = None
+    except:
+        raise Exception("Empty query")
     result = roll(query)
     text = query + " = " + str(result)
     Telegram_API.sendMessage(prefix, message.chat.id_, text)
