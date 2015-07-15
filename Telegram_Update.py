@@ -1,12 +1,17 @@
 import random, Telegram_API
 
 def deal(prefix, update):
-    l = update.message.text.split(maxsplit=2)
-    command = l[0].strip('/')
-    try:
-        globals()["do_" + command](prefix, update.message)
-    except:
-        Telegram_API.sendMessage(prefix, update.message.chat.id_, "Invalid command, type /help for help.".encode('utf_8'))
+    if update.message.text.startswith('/'):
+        l = update.message.text.split(maxsplit=2)
+        command = l[0].strip('/')
+        try:
+            globals()["do_" + command](prefix, update.message)
+        except:
+            Telegram_API.sendMessage(prefix, update.message.chat.id_, "Invalid command, type /help for help.".encode('utf_8'))
+
+def do_help(prefix, message):
+    # POST help message here
+    pass
 
 def roll(query):
     # d = 1#1d20+0
