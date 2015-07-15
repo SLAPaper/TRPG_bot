@@ -6,7 +6,7 @@ def deal(prefix, update):
     try:
         globals()["do_" + command](prefix, update.message)
     except:
-        Telegram_API.sendMessage(prefix, update.message.chat.id_, "Invalid command, type /help for help.")
+        Telegram_API.sendMessage(prefix, update.message.chat.id_, "Invalid command, type /help for help.".encode('utf_8'))
 
 def roll(query):
     # d = 1#1d20+0

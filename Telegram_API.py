@@ -27,13 +27,13 @@ def sendMessage(prefix, chat_id, text, optional={}):
     data = {'chat_id':chat_id, 'text':text,}
     data.update(optional)
     body = urllib.parse.urlencode(data)
-    return opener.open(prefix + "sendMessage", data=body)
+    return opener.open(prefix + "sendMessage", data=body.encode('utf_8'))
 
 def forwardMessage(prefix, chat_id, from_chat_id, message_id):
     global opener
     data = {'chat_id':chat_id, 'from_chat_id':from_chat_id, 'message_id':message_id,}
     body = urllib.parse.urlencode(data)
-    return opener.open(prefix + "forwardMessage", data=body)
+    return opener.open(prefix + "forwardMessage", data=body.encode('utf_8'))
 
 def sendFile(prefix, chat_id, filedata, filetype, optional={}):
     # It is a replacement of sendPhoto, sendAudio, sendDocument, sendSticker, sendVideo
@@ -72,8 +72,8 @@ def sendFile(prefix, chat_id, filedata, filetype, optional={}):
                 yield value
             yield('--'+boundary+'--' + '\r\n')
         
-        response = opener.open(request, data=body) 
+        response = opener.open(request, data=body.encode('utf_8')) 
     else:
         body = urllib.parse.urlencode(data)
-        response = opener.open(prefix + "send" + filetype.capitalize() , data=body) 
+        response = opener.open(prefix + "send" + filetype.capitalize() , data=body.encode('utf_8')) 
     return response
