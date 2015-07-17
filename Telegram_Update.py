@@ -11,7 +11,16 @@ def deal(prefix, update):
 
 def do_help(prefix, message):
     # POST help message here
-    pass
+    HELP_MESSAGE = 
+    """
+    '/'command [query]
+    
+    command:
+    'help': show this help
+    'r' [times'#'][count]'d'[faces]['+'addend]' '[description]: roll dices
+    'me' [action]: do charactor action
+    """
+    Telegram_API.sendMessage(prefix, update.message.chat.id_, HELP_MESSAGE.encode('utf_8'))
 
 def roll(query):
     # d = 1#1d20+0
