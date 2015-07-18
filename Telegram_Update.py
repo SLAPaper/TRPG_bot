@@ -68,13 +68,24 @@ def roll(query):
         return (random.randrange(20) + 1,)
 
 def do_r(prefix, message):
-    l = message.text.split(maxsplit=2)
+    l = message.text.split(maxsplit=3)
     try:
         query = l[1]
     except:
         raise Exception("Empty query")
+    
+    user = message.from_
+    name = user.first_name
+    if user.last_name:
+        name = name + " " + user.last_name
+    if user.username:
+        name = name + "(" + user.username + ")"
+    
     result = roll(query)
-    text = query + " = " + str(result)
+    text = name + " " + query + " = " + str(result)
+    if len(l) == 3:
+        text = text + " " + l[2]
+    
     Telegram_API.sendMessage(prefix, message.chat.id_, text)
 
 def do_me(prefix, message):
