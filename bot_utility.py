@@ -39,7 +39,7 @@ def roll(query):
             dice_sum = 0
             for j in range(count):
                 dice_sum += random.randrange(faces)
-            dice_sum += addend
+            dice_sum += addend + 1
             result.append(dice_sum)
         return tuple(result)
     except:
