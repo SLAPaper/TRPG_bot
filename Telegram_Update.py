@@ -13,12 +13,12 @@ def do_help(prefix, message):
     # POST help message here
     HELP_MESSAGE = \
     """
-    '/'command [query]\n\n
+    '/'command [query]
     
-    command:\n
-    'help': show this help\n
-    'r' [times'#'][count]'d'[faces]['+'addend]' '[description]: roll dices\n
-    'me' [action]: do charactor action\n
+    command:
+    'help': show this help
+    'r' [times'#'][count]'d'[faces]['+'addend]' '[description]: roll dices
+    'me' [action]: do charactor action
     """
     Telegram_API.sendMessage(prefix, message.chat.id_, HELP_MESSAGE)
 
