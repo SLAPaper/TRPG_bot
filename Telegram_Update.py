@@ -20,7 +20,7 @@ def do_help(prefix, message):
     'r' [times'#'][count]'d'[faces]['+'addend]' '[description]: roll dices\n
     'me' [action]: do charactor action\n
     """
-    Telegram_API.sendMessage(prefix, update.message.chat.id_, HELP_MESSAGE.encode('utf_8'))
+    Telegram_API.sendMessage(prefix, message.chat.id_, HELP_MESSAGE.encode('utf_8'))
 
 def roll(query):
     # d = 1#1d20+0
