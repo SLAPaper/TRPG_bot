@@ -1,4 +1,4 @@
-import random, Telegram_API
+import Telegram_API
 from bot_utility import roll
 
 def deal(prefix, update):
