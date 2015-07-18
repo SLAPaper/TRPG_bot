@@ -11,14 +11,14 @@ def deal(prefix, update):
 
 def do_help(prefix, message):
     # POST help message here
-    HELP_MESSAGE = 
+    HELP_MESSAGE = \
     """
-    '/'command [query]
+    '/'command [query]\n\n
     
-    command:
-    'help': show this help
-    'r' [times'#'][count]'d'[faces]['+'addend]' '[description]: roll dices
-    'me' [action]: do charactor action
+    command:\n
+    'help': show this help\n
+    'r' [times'#'][count]'d'[faces]['+'addend]' '[description]: roll dices\n
+    'me' [action]: do charactor action\n
     """
     Telegram_API.sendMessage(prefix, update.message.chat.id_, HELP_MESSAGE.encode('utf_8'))
 
